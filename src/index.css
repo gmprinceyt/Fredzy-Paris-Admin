@@ -121,6 +121,11 @@
 };
 
 
-* {
+/* * {
     font-family: "Geist", sans-serif;
+}; */
+
+@font-face {
+  font-family: Brand;
+  src: url("/font/Priestacy.otf");
 }
