@@ -8,6 +8,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import ErrorMessage from "./ErrorUI";
 
 type Props = {
   data?: {
@@ -20,12 +21,11 @@ export function Overview({
   data,
 }: Props) {
 
-  if (!data) return
-  const data1 = TransformDataToCharts(data);
-  console.log(data1)
+  if (!data) return <ErrorMessage ErrorMessage="Data Not Comming Up! "/>
+  const Charts = TransformDataToCharts(data);
   return (
     <ResponsiveContainer width="100%" height={350}>
-      <BarChart data={data1}>
+      <BarChart data={Charts}>
         <XAxis dataKey="month" stroke="#888888" fontSize={12} />
         <YAxis />
         <Tooltip />

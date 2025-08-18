@@ -26,7 +26,7 @@ export type Stats = {
     male: number;
     female: number;
   };
-  latestTransaction: LatestTransaction[];
+  modefiedlatestFourTransaction: LatestTransaction[];
 };
 
 export interface MessageResponse {
@@ -79,7 +79,7 @@ type CountAndChange = {
   order: number;
 };
 
-type LatestTransaction = {
+export type LatestTransaction = {
   _id: string;
   amount: number;
   discount: number;

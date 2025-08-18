@@ -2,7 +2,8 @@ import axios from 'axios';
 import { AdminId, baseURL } from '.';
 import type { StatsResponse } from '@/types/Api';
 
-export const DashboardAPI = ()=> {
-    const url =  `${baseURL}/inventory/dashboard?id=${AdminId}`
+
+export const ProductAPI = ()=> {
+    const url =  `${baseURL}/product/admin-product/?id=${AdminId}`
     return axios.get<StatsResponse>(url)
-}   
+}

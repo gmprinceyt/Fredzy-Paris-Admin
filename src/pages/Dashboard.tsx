@@ -8,7 +8,7 @@ import Users from "@/components/Tabs/User";
 import { useQuery } from "@tanstack/react-query";
 import { DashboardAPI } from "@/Apis/dashboard";
 import Loading from "@/components/small/Loading";
-import ErrorMessage from "@/components/small/Error";
+import ErrorMessage from "@/components/small/ErrorUI";
 
 function Dashboard() {
   const { data:Stats, isLoading, isError, error } = useQuery({
