@@ -20,7 +20,10 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { useCallback, useRef, useState } from "react";
 import { Badge } from "../ui/badge";
-// import ProductSkeleton from "../small/ProductSkeleton";
+import { useQuery } from "@tanstack/react-query";
+import ErrorMessage from "../small/ErrorUI";
+import ProductSkeleton from "../small/ProductSkeleton";
+import { ApiFunctions } from "@/Apis/Api";
 
 const Product = () => {
   const [priceRange, setPriceRange] = useState([100000]);
@@ -30,8 +33,21 @@ const Product = () => {
   const [page, setpage] = useState(1);
   const timeout = useRef<NodeJS.Timeout | null>(null);
 
-  console.log(priceRange, page, sort, category, search);
+  // get All Search Products
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["search-product"],
+    queryFn: () =>
+      ApiFunctions.SearchProduct({ category, page, price: priceRange[0], search, sort }),
+  });
+  if (isError) return <ErrorMessage ErrorMessage={error.message} />;
 
+  // Get All Categories
+  const { data:categories} = useQuery({
+    queryKey: ["categories"],
+    queryFn: ApiFunctions.Categories,
+  });
+
+  const  products = data?.data.products;
   const SearchDebounce = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (timeout.current) {
@@ -86,17 +102,13 @@ const Product = () => {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Categories</SelectLabel>
-                  <SelectItem value="all">All</SelectItem>
-                  <SelectItem value="Men">Men</SelectItem>
-                  <SelectItem value="Laptops">Laptops</SelectItem>
-
-                  {/* {categories?.data.map((category, i) => {
+                  {categories?.data.data.map((category, i) => {
                     return (
                       <SelectItem key={i} value={category}>
-                        {category.toLowerCase()}
+                        {category.toUpperCase()}
                       </SelectItem>
-                    );
-                  })} */}
+                    )
+                  })}
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -119,29 +131,12 @@ const Product = () => {
       </section>
 
       {/* Main product Section */}
-      <section className="relative">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5 mb-2">
-          <ProductCard
-            key={1}
-            name={"Green Hibiscus Print One-Shoulder Co-Ord Set"}
-            price={12800}
-            stock={20}
-            productId={"hello"}
-            photo={
-              "https://images.unsplash.com/photo-1560343090-f0409e92791a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdCUyMHBob3RvZ3JhcGh5fGVufDB8fDB8fHww"
-            }
-            discription={`No. of Components - 2
-Components - Tunic, Pants
-Material - Tunic - Modal Satin; Pants - Pure Muslin
-Hibiscus print asymmetric tunic
-One shoulder neckline
-Tie-up belt attached on the waist
-Hand embroidery detailing on the border
-Paired with a medium flared pants
-Colour - Bottle Green `}
-            category={"clothes"}
-          />
-          {/* {isLoading ? (
+      {isLoading ? (
+        <ProductSkeleton />
+      ) : (
+        <section className="">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-1.5 mb-2">
+            {isLoading ? (
             <>
              <ProductSkeleton />
              <ProductSkeleton />
@@ -149,13 +144,12 @@ Colour - Bottle Green `}
              <ProductSkeleton />
             </>
           ) : (
-            products?.products.map((product) => {
+            products?.map((product) => {
               return (
                 <ProductCard
                   key={product._id}
                   name={product.name}
                   price={product.price}
-                  rating={4.5}
                   stock={product.stock}
                   productId={product._id}
                   photo={product.photo}
@@ -164,43 +158,44 @@ Colour - Bottle Green `}
                 />
               );
             })
-          )} */}
-        </div>
+          )}
+          </div>
 
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                onClick={() => {
-                  if (page === 1) return;
-                  setpage((page) => page - 1);
-                }}
-              />
-            </PaginationItem>
-
-            {/* Render page links dynamically based on totalPages and page */}
-            {Array.from({ length: 1 }, (_, i) => i + 1).map((pageNumber) => (
-              <PaginationItem key={pageNumber}>
-                <PaginationLink
-                  onClick={() => setpage(pageNumber)}
-                  isActive={pageNumber === page}
-                >
-                  {pageNumber}
-                </PaginationLink>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() => {
+                    if (page === 1) return;
+                    setpage((page) => page - 1);
+                  }}
+                />
               </PaginationItem>
-            ))}
 
-            <PaginationItem>
-              <PaginationNext
-                onClick={() => {
-                  // if (page === products?.pageLength) return;
-                  setpage((page) => page + 1);
-                }}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </section>
+              {/* Render page links dynamically based on totalPages and page */}
+              {Array.from({ length: data?.data.pageLength || 1 }, (_, i) => i + 1).map((pageNumber) => (
+                <PaginationItem key={pageNumber}>
+                  <PaginationLink
+                    onClick={() => setpage(pageNumber)}
+                    isActive={pageNumber === page}
+                  >
+                    {pageNumber}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() => {
+                    if (page === data?.data.pageLength) return;
+                    setpage((page) => page + 1);
+                  }}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </section>
+      )}
     </div>
   );
 };

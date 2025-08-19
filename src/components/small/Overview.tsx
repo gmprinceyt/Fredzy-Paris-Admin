@@ -9,6 +9,7 @@ import {
   YAxis,
 } from "recharts";
 import ErrorMessage from "./ErrorUI";
+import { memo } from "react";
 
 type Props = {
   data?: {
@@ -17,9 +18,9 @@ type Props = {
   }
 }
 
-export function Overview({
+const  Overview = memo(({
   data,
-}: Props) {
+}: Props) =>{
 
   if (!data) return <ErrorMessage ErrorMessage="Data Not Comming Up! "/>
   const Charts = TransformDataToCharts(data);
@@ -45,4 +46,6 @@ export function Overview({
       </BarChart>
     </ResponsiveContainer>
   );
-}
+})
+
+export default Overview;

@@ -17,7 +17,7 @@ export function RecentSales({
 
       {latestTransaction?.map((order) => {
         return (
-          <div className="flex flex-1 gap-4 items-center justify-between border py-3 px-2 cursor-pointer rounded-md hover:bg-gray-300">
+          <div key={order._id} className="flex flex-1 gap-4 items-center justify-between border py-3 px-2 cursor-pointer rounded-md hover:bg-gray-300">
             <p className="text-sm leading-none font-medium">
               {order._id.slice(4, 8)}
             </p>

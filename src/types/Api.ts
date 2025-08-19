@@ -14,6 +14,27 @@ export interface BarResponse extends MessageResponse {
   data: Bar;
 }
 
+export interface SearchProductResponse {
+  success: boolean;
+  products: Product[];
+  pageLength: number;
+}
+export interface ProductResponse extends MessageResponse {
+  data: Product[];
+}
+export interface CategoriesResponse extends MessageResponse {
+  data: string[];
+}
+
+export type UpdateProductQuery = {
+  name: string;
+  discription: string;
+  category: string;
+  stock: number;
+  price: number;
+  photo:string;
+};
+
 export type Stats = {
   categoryCount: Record<string, number>[];
   dataIncresmentlastMonth: CountAndChange;
@@ -34,8 +55,17 @@ export interface MessageResponse {
   message: string;
   data: object;
   success: boolean;
-};
+}
 
+export type Product = {
+  _id: string;
+  name: string;
+  category: string;
+  price: number;
+  stock: number;
+  discription: string;
+  photo: string;
+};
 
 export type Bar = {
   users: number[];
@@ -48,7 +78,6 @@ export type Line = {
   discount: number[];
   revenue: number[];
 };
-
 
 export type Pie = {
   orderFullfillment: OrderFullfillment;
@@ -65,6 +94,23 @@ export type Pie = {
   };
 };
 
+export type LatestTransaction = {
+  _id: string;
+  amount: number;
+  discount: number;
+  quantity: number;
+  status: string;
+};
+
+// search=men&sort=asc&category=laptops&price=2000&page
+export type SearchProductQeury = {
+  search: string;
+  sort: string;
+  category: string;
+  price: number;
+  page: number;
+};
+
 type countData = {
   totalRevenue: number;
   OrderCount: number;
@@ -77,14 +123,6 @@ type CountAndChange = {
   product: number;
   users: number;
   order: number;
-};
-
-export type LatestTransaction = {
-  _id: string;
-  amount: number;
-  discount: number;
-  quantity: number;
-  status: string;
 };
 
 type OrderFullfillment = {

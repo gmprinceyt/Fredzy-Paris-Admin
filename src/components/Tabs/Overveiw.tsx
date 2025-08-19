@@ -1,146 +1,77 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RecentSales } from "../small/recent-sales";
-import { Overview } from "../small/Overview";
-import type { Stats } from "@/types/Api";
+import Overview from "../small/Overview";
+import { useQuery } from "@tanstack/react-query";
+import { DashboardAPI } from "@/Apis/dashboard";
+import ErrorMessage from "@/components/small/ErrorUI";
+import Loading from "../small/Loading";
+import DashboardCard from "../small/DashboardCard";
 
-const OverviewTabs = ({ data }: { data?: Stats }) => {
+const OverviewTabs = () => {
+  const {
+    data: Stats,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["dashborad"],
+    queryFn: DashboardAPI,
+  });
+
+  if (isError) return <ErrorMessage ErrorMessage={error.message} />;
+  const data = Stats?.data.data;
   return (
-    <div>
-      <div className="space-y-4">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Total Revneue */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Revenue
-              </CardTitle>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                className="text-muted-foreground h-4 w-4"
-              >
-                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-              </svg>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                ₹{data?.countData.totalRevenue}
-              </div>
-              <p className="text-muted-foreground text-xs">
-                +{data?.dataIncresmentlastMonth.revenue}% from last month
-              </p>
-            </CardContent>
-          </Card>
-          {/* Products */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Products</CardTitle>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                className="text-muted-foreground h-4 w-4"
-              >
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-              </svg>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                +{data?.countData.ProductCount}
-              </div>
-              <p className="text-muted-foreground text-xs">
-                +{data?.dataIncresmentlastMonth.product}% from last month
-              </p>
-            </CardContent>
-          </Card>
-
-          {/* Orders */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Orders</CardTitle>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                className="text-muted-foreground h-4 w-4"
-              >
-                <rect width="20" height="14" x="2" y="5" rx="2" />
-                <path d="M2 10h20" />
-              </svg>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                +{data?.countData.OrderCount}
-              </div>
-              <p className="text-muted-foreground text-xs">
-                +{data?.dataIncresmentlastMonth.order}% from last month
-              </p>
-            </CardContent>
-          </Card>
-          {/* Users */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Active Users
-              </CardTitle>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                className="text-muted-foreground h-4 w-4"
-              >
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-              </svg>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                +{data?.countData.UserCount}
-              </div>
-              <p className="text-muted-foreground text-xs">
-                +{data?.dataIncresmentlastMonth.users} from last month
-              </p>
-            </CardContent>
-          </Card>
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className="space-y-4">
+          {/* Dashboard Card */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <DashboardCard
+              name="Total Revenues"
+              countData={data?.countData.totalRevenue}
+              IncresmentlastMonth={data?.dataIncresmentlastMonth.revenue}
+            />
+            <DashboardCard
+              name="Products"
+              countData={data?.countData.ProductCount}
+              IncresmentlastMonth={data?.dataIncresmentlastMonth.product}
+            />
+            <DashboardCard
+              name="Orders"
+              countData={data?.countData.OrderCount}
+              IncresmentlastMonth={data?.dataIncresmentlastMonth.order}
+            />
+            <DashboardCard
+              name="Users"
+              countData={data?.countData.UserCount}
+              IncresmentlastMonth={data?.dataIncresmentlastMonth.users}
+            />
+          </div>
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
+            <Card className="col-span-1 lg:col-span-4">
+              <CardHeader>
+                <CardTitle>Overview</CardTitle>
+              </CardHeader>
+              <CardContent className="ps-2">
+                <Overview data={data?.lastSixMonthData} />
+              </CardContent>
+            </Card>
+            <Card className="col-span-1 lg:col-span-3">
+              <CardHeader>
+                <CardTitle>Latest four transaction</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <RecentSales
+                  latestTransaction={data?.modefiedlatestFourTransaction}
+                />
+              </CardContent>
+            </Card>
+          </div>
         </div>
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
-          <Card className="col-span-1 lg:col-span-4">
-            <CardHeader>
-              <CardTitle>Overview</CardTitle>
-            </CardHeader>
-            <CardContent className="ps-2">
-              <Overview data={data?.lastSixMonthData} />
-            </CardContent>
-          </Card>
-          <Card className="col-span-1 lg:col-span-3">
-            <CardHeader>
-              <CardTitle>Latest four transaction</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <RecentSales latestTransaction={data?.modefiedlatestFourTransaction}/>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

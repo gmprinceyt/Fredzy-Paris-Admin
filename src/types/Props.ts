@@ -7,3 +7,9 @@ export type  ProductProps = {
   stock: number;
   category: string;
 } 
+export type  DashboardCards = {
+  name:string;
+  countData?: number;
+  IncresmentlastMonth?:number;
+} 
+

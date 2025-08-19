@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { AdminId, baseURL } from '.';
 import type { StatsResponse } from '@/types/Api';
+import { ENV } from '.';
 
 export const DashboardAPI = ()=> {
-    const url =  `${baseURL}/inventory/dashboard?id=${AdminId}`
+    const url =  `${ENV.BaseURl}/inventory/dashboard?id=${ENV.AdminId}`
     return axios.get<StatsResponse>(url)
 }   
