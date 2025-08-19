@@ -22,7 +22,6 @@ const ProductCard = ({
   category,
 }: ProductProps) => {
 const navigate = useNavigate();
-  console.log(`${ENV.SERVER}/${photo}`)
   return (
     <Card className="p-0 overflow-hidden min-w-48 max-w-64 gap-1 font-[Geist]">
       <div className="w-full h-60 relative">

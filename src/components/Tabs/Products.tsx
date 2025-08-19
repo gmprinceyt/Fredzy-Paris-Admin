@@ -20,7 +20,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { useCallback, useRef, useState } from "react";
 import { Badge } from "../ui/badge";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import ErrorMessage from "../small/ErrorUI";
 import ProductSkeleton from "../small/ProductSkeleton";
 import { ApiFunctions } from "@/Apis/Api";
@@ -35,19 +35,29 @@ const Product = () => {
 
   // get All Search Products
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["search-product"],
+    queryKey: [
+      "search-product",
+      { category, page, price: priceRange[0], search, sort },
+    ],
     queryFn: () =>
-      ApiFunctions.SearchProduct({ category, page, price: priceRange[0], search, sort }),
+      ApiFunctions.SearchProduct({
+        category,
+        page,
+        price: priceRange[0],
+        search,
+        sort,
+    }),
+     placeholderData: keepPreviousData,
   });
   if (isError) return <ErrorMessage ErrorMessage={error.message} />;
 
   // Get All Categories
-  const { data:categories} = useQuery({
+  const { data: categories } = useQuery({
     queryKey: ["categories"],
     queryFn: ApiFunctions.Categories,
   });
 
-  const  products = data?.data.products;
+  const products = data?.data.products;
   const SearchDebounce = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (timeout.current) {
@@ -87,8 +97,8 @@ const Product = () => {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Price</SelectLabel>
-                  <SelectItem value="asc">low-high</SelectItem>
-                  <SelectItem value="dsc">high-low</SelectItem>
+                  <SelectItem value="asc">Low-High</SelectItem>
+                  <SelectItem value="dsc">High-Low</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -102,12 +112,15 @@ const Product = () => {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Categories</SelectLabel>
+                   <SelectItem value="all">
+                        ALL
+                      </SelectItem>
                   {categories?.data.data.map((category, i) => {
                     return (
                       <SelectItem key={i} value={category}>
                         {category.toUpperCase()}
                       </SelectItem>
-                    )
+                    );
                   })}
                 </SelectGroup>
               </SelectContent>
@@ -118,10 +131,10 @@ const Product = () => {
 
             <Slider
               onValueChange={setPriceRange}
-              defaultValue={priceRange}
+              defaultValue={[100000]}
               max={100000}
               min={1000}
-              step={1}
+              step={150}
             />
             <Badge className="mt-1 rounded-md  text-sm ">
               100 - {priceRange}
@@ -137,28 +150,28 @@ const Product = () => {
         <section className="">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-1.5 mb-2">
             {isLoading ? (
-            <>
-             <ProductSkeleton />
-             <ProductSkeleton />
-             <ProductSkeleton />
-             <ProductSkeleton />
-            </>
-          ) : (
-            products?.map((product) => {
-              return (
-                <ProductCard
-                  key={product._id}
-                  name={product.name}
-                  price={product.price}
-                  stock={product.stock}
-                  productId={product._id}
-                  photo={product.photo}
-                  discription={product.discription}
-                  category={product.category}
-                />
-              );
-            })
-          )}
+              <>
+                <ProductSkeleton />
+                <ProductSkeleton />
+                <ProductSkeleton />
+                <ProductSkeleton />
+              </>
+            ) : (
+              products?.map((product) => {
+                return (
+                  <ProductCard
+                    key={product._id}
+                    name={product.name}
+                    price={product.price}
+                    stock={product.stock}
+                    productId={product._id}
+                    photo={product.photo}
+                    discription={product.discription}
+                    category={product.category}
+                  />
+                );
+              })
+            )}
           </div>
 
           <Pagination>
@@ -172,12 +185,18 @@ const Product = () => {
                 />
               </PaginationItem>
 
-              {/* Render page links dynamically based on totalPages and page */}
-              {Array.from({ length: data?.data.pageLength || 1 }, (_, i) => i + 1).map((pageNumber) => (
+              {Array.from(
+                { length: data?.data.pageLength || 1 },
+                (_, i) => i + 1
+              ).map((pageNumber) => (
                 <PaginationItem key={pageNumber}>
                   <PaginationLink
                     onClick={() => setpage(pageNumber)}
-                    isActive={pageNumber === page}
+                    className={
+                      pageNumber === page
+                        ? "bg-primary text-primary-foreground"
+                        : ""
+                    }
                   >
                     {pageNumber}
                   </PaginationLink>
