@@ -25,7 +25,7 @@ const OverviewTabs = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-4  m-auto max-w-[1280px] px-3 font-[Geist]">
           {/* Dashboard Card */}
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <DashboardCard

@@ -40,7 +40,7 @@ const AddProduct = () => {
   return (
     <div className=" h-screen relative max-w-[1280px] m-auto p-3 font-[Geist]  flex flex-col items-center justify-center">
         <Toaster position="top-center" />
-        <Link to={"/"} className="flex gap-1 absolute top-3 left-3 ">
+        <Link to={"/products"} className="flex gap-1 absolute top-3 left-3 ">
             <ArrowLeft/>
             Back
         </Link>

@@ -25,7 +25,7 @@ const DashboardCard = memo(({name, countData, IncresmentlastMonth}:DashboardCard
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            ₹{countData}
+            {countData}
           </div>
           <p className="text-muted-foreground text-xs">
             +{IncresmentlastMonth}% from last month

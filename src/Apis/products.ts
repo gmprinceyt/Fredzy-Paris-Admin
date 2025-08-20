@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ENV } from ".";
-import type { CategoriesResponse, ProductResponse, SearchProductQeury, SearchProductResponse, UpdateProductQuery } from "@/types/Api";
+import type { CategoriesResponse, ProductResponse, SearchProductQeury, SearchProductResponse, SingalProductResponse } from "@/types/Api";
 
 const base = `${ENV.BaseURl}/product`;
 
@@ -31,9 +31,14 @@ export const CreateProductApi = (post:FormData)=> {
 };
 
 
-export const updateProductApi = (productId:string)=> {
+export const SingalProductApi = (productId:string)=> {
   const url = `${base}/${productId}/?id=${ENV.AdminId}`;
-  return axios.patch<UpdateProductQuery>(url);
+  return axios.get<SingalProductResponse>(url);
+}
+
+export const updateProductApi = (productId:string,post:FormData )=> {
+  const url = `${base}/${productId}/?id=${ENV.AdminId}`;
+  return axios.patch(url, post);
 }
 
 export const categoriesApi = ()=> {

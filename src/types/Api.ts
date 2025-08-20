@@ -22,6 +22,9 @@ export interface SearchProductResponse {
 export interface ProductResponse extends MessageResponse {
   data: Product[];
 }
+export interface SingalProductResponse extends MessageResponse {
+  data: Product;
+}
 export interface CategoriesResponse extends MessageResponse {
   data: string[];
 }

@@ -4,6 +4,7 @@ import {
   CreateProductApi,
   ProductAPI,
   SearchProductAPI,
+  SingalProductApi,
   updateProductApi,
 } from "./products";
 
@@ -15,4 +16,5 @@ export const ApiFunctions = {
   Categories: categoriesApi,
   UpdateProduct: updateProductApi,
   CreateProduct: CreateProductApi,
+  SingalProduct: SingalProductApi,
 };
