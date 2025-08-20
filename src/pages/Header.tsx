@@ -1,8 +1,10 @@
+import { Toaster } from "react-hot-toast";
 import { Link } from "react-router";
 
 function Dashboard() {
   return (
     <>
+    <Toaster position="top-center"/>
       <div className="m-auto max-w-[1280px] p-2 font-[Geist]">
         {/* Brand Logo */}
         <h1>

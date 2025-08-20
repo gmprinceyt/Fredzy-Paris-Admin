@@ -2,6 +2,7 @@ import { DashboardAPI } from "./dashboard";
 import {
   categoriesApi,
   CreateProductApi,
+  deleteProductApi,
   ProductAPI,
   SearchProductAPI,
   SingalProductApi,
@@ -17,4 +18,5 @@ export const ApiFunctions = {
   UpdateProduct: updateProductApi,
   CreateProduct: CreateProductApi,
   SingalProduct: SingalProductApi,
+  DeleteProduct:deleteProductApi
 };

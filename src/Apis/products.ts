@@ -35,10 +35,14 @@ export const SingalProductApi = (productId:string)=> {
   const url = `${base}/${productId}/?id=${ENV.AdminId}`;
   return axios.get<SingalProductResponse>(url);
 }
-
-export const updateProductApi = (productId:string,post:FormData )=> {
+export const deleteProductApi = (productId:string)=> {
   const url = `${base}/${productId}/?id=${ENV.AdminId}`;
-  return axios.patch(url, post);
+  return axios.delete(url);
+}
+
+export const updateProductApi = ({productId,post }:{productId:string, post:FormData})=> {
+  const url = `${base}/${productId}/?id=${ENV.AdminId}`;
+  return axios.put(url, post);
 }
 
 export const categoriesApi = ()=> {

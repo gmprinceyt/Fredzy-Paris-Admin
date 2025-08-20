@@ -35,7 +35,7 @@ export type UpdateProductQuery = {
   category: string;
   stock: number;
   price: number;
-  photo:string;
+  photo:File[];
 };
 export type AddProductQuery = {
   name: string;

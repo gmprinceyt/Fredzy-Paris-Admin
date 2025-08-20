@@ -8,7 +8,7 @@ import Orders from "./components/Tabs/Orders";
 import Users from "./components/Tabs/User";
 import Analytics from "./components/Tabs/Analytics";
 import Reports from "./components/Tabs/Reports";
-import AditProduct from "./components/screen/AditProduct";
+import EditProduct from "./components/screen/AditProduct";
 const Header = lazy(()=> import("./pages/Header"))
 const Dashboard = lazy(()=> import("./pages/Dashboard"))
 const AddProduct  = lazy(()=> import("./components/screen/AddProduct"))
@@ -25,7 +25,7 @@ const App = () => {
           <Route path="/users" element={<Users/>} />  
           <Route path="/analytics" element={<Analytics/>} />  
           <Route path="/reports" element={<Reports/>} />  
-          <Route path="/product/:productId" element={<AditProduct/>} />  
+          <Route path="/product/:productId" element={<EditProduct/>} />  
         </Routes>
       </BrowserRouter>
     </Suspense>
