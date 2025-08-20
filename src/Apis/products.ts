@@ -24,9 +24,10 @@ export const SearchProductAPI = ({
 };
 
 
-export const categoriesApi = ()=> {
-  const url = `${base}/categories`;
-  return axios.get<CategoriesResponse>(url);
+
+export const CreateProductApi = (post:FormData)=> {
+  const url = `${base}/create/?id=${ENV.AdminId}`;
+  return axios.post(url, post);
 };
 
 
@@ -34,3 +35,8 @@ export const updateProductApi = (productId:string)=> {
   const url = `${base}/${productId}/?id=${ENV.AdminId}`;
   return axios.patch<UpdateProductQuery>(url);
 }
+
+export const categoriesApi = ()=> {
+  const url = `${base}/categories`;
+  return axios.get<CategoriesResponse>(url);
+};

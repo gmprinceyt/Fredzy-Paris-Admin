@@ -1,11 +1,18 @@
 import { DashboardAPI } from "./dashboard";
-import { categoriesApi, ProductAPI, SearchProductAPI, updateProductApi } from "./products";
+import {
+  categoriesApi,
+  CreateProductApi,
+  ProductAPI,
+  SearchProductAPI,
+  updateProductApi,
+} from "./products";
 
 // Export File
 export const ApiFunctions = {
   Dashboard: DashboardAPI,
   Product: ProductAPI,
   SearchProduct: SearchProductAPI,
-  Categories:categoriesApi,
-  UpdateProduct: updateProductApi
+  Categories: categoriesApi,
+  UpdateProduct: updateProductApi,
+  CreateProduct: CreateProductApi,
 };

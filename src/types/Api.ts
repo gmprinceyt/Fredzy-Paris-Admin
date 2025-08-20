@@ -34,6 +34,14 @@ export type UpdateProductQuery = {
   price: number;
   photo:string;
 };
+export type AddProductQuery = {
+  name: string;
+  discription: string;
+  category: string;
+  stock: number;
+  price: number;
+  photo:File[];
+};
 
 export type Stats = {
   categoryCount: Record<string, number>[];

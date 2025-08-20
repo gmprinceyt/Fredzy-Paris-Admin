@@ -24,6 +24,9 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import ErrorMessage from "../small/ErrorUI";
 import ProductSkeleton from "../small/ProductSkeleton";
 import { ApiFunctions } from "@/Apis/Api";
+import { Button } from "../ui/button";
+import { Plus } from "lucide-react";
+import { Link } from "react-router";
 
 const Product = () => {
   const [priceRange, setPriceRange] = useState([100000]);
@@ -78,6 +81,9 @@ const Product = () => {
           Aduit Products
         </h1>
 
+        <div className="my-2 ">
+         <Link to="/addproduct"> <Button className="w-full">Create <Plus/> </Button></Link>
+        </div>
         <div className="my-2 ">
           <h4 className="  font-semibold ">Keyword</h4>
           <Input
