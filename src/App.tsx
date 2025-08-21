@@ -13,6 +13,7 @@ const Header = lazy(()=> import("./pages/Header"))
 const Dashboard = lazy(()=> import("./pages/Dashboard"))
 const AddProduct  = lazy(()=> import("./components/screen/AddProduct"))
 const MangeOrder  = lazy(()=> import("./components/screen/MangeOrder"))
+const UserDetails  = lazy(()=> import("./components/screen/UserDetails"))
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
           {/* Dynamic Route */}
           <Route path="/product/:productId" element={<EditProduct/>} />  
           <Route path="/order/:orderId" element={<MangeOrder/>} />  
+          <Route path="/user/:userId" element={<UserDetails/>} />  
         </Routes>
       </BrowserRouter>
     </Suspense>

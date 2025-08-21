@@ -131,6 +131,9 @@ export interface OrderDetailsResponse extends MessageResponse {
 export interface GetSingleUser extends MessageResponse {
   data: UserType;
 }
+export interface GetAllUser extends MessageResponse {
+  data: UserType[];
+}
 
 type OrderResponse = {
   shippingInfo: ShippingInfo;
@@ -148,6 +151,7 @@ type OrderResponse = {
 };
 
 type UserType = {
+  _id:string;
   name: string;
   email:string;
   photo:string;

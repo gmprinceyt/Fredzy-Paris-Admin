@@ -9,7 +9,7 @@ import {
   SingalProductApi,
   updateProductApi,
 } from "./products";
-import { GetAllUserApi, GetSingleUserApi } from "./user";
+import { DeleteUserApi, GetAllUserApi, GetSingleUserApi } from "./user";
 
 // Import Files
 export const ApiFunctions = {
@@ -26,5 +26,6 @@ export const ApiFunctions = {
   GetSingleUser: GetSingleUserApi,
   GetAllUsers:GetAllUserApi,
   DeleteOrder:DeleteOrderApi,
-  ChangeOrderStatus:ChangeOrderStatusApi
+  ChangeOrderStatus:ChangeOrderStatusApi,
+  DeleteUser: DeleteUserApi,
 };
