@@ -1,4 +1,4 @@
-import { ShieldCheck, Star, Truck } from "lucide-react";
+import { Loader, ShieldCheck, Star, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -23,12 +23,13 @@ import type { UpdateProductQuery } from "@/types/Api";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
 
 const EditProduct = () => {
   const { productId } = useParams<{ productId: string }>();
   const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
-
+  const navigate = useNavigate()
   const { register, handleSubmit, reset } = useForm<UpdateProductQuery>();
 
   const {
@@ -58,6 +59,14 @@ const EditProduct = () => {
     onError: (err: any) => {
       toast.error(err.message || "Update failed");
       console.log(err);
+    },
+  });
+
+  const { mutate: deleteProduct, isPending: deletePending } = useMutation({
+    mutationFn: ApiFunctions.DeleteProduct,
+    onSuccess: () => {
+      toast.success("Product Delete");
+      navigate("/products")
     },
   });
 
@@ -149,10 +158,7 @@ const EditProduct = () => {
           <div className="flex gap-4 mt-8">
             <Dialog open={isOpen}>
               <DialogTrigger asChild>
-                <Button
-                  onClick={() => setIsOpen(true)}
-                  className="w-full"
-                >
+                <Button onClick={() => setIsOpen(true)} className="w-full">
                   Edit Product Details
                 </Button>
               </DialogTrigger>
@@ -229,7 +235,12 @@ const EditProduct = () => {
                 </form>
               </DialogContent>
             </Dialog>
-            {/* <Button onClick={}>Delete</Button> */}
+            <Button
+              onClick={() => deleteProduct(productId!)}
+              className="bg-red-500"
+            >
+              {deletePending ? <Loader className="animate-spin" /> : "Delete"}
+            </Button>
           </div>
         </div>
       </div>
