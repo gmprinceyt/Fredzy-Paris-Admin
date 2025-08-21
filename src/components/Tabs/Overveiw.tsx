@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RecentSales } from "../small/recent-sales";
 import Overview from "../small/Overview";
 import { useQuery } from "@tanstack/react-query";
-import { DashboardAPI } from "@/Apis/dashboard";
+import { DashboardAPI } from "@/Apis/inventory";
 import ErrorMessage from "@/components/small/ErrorUI";
 import Loading from "../small/Loading";
 import DashboardCard from "../small/DashboardCard";

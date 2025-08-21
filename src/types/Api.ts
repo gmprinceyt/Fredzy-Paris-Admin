@@ -80,30 +80,27 @@ export type Product = {
 };
 
 export type Bar = {
-  users: number[];
-  products: number[];
-  orders: number[];
+  lastSixMonthUsers: number[];
+  lastSixMonthProducts: number[];
+  lastTwelveMonthOrders: number[];
 };
 export type Line = {
-  users: number[];
-  products: number[];
-  discount: number[];
-  revenue: number[];
+  lastTwavleMonthUser: number[];
+  lastTwavleMonthProduct: number[];
+  lastTwavleMonthDiscount: number[];
+  lastTwavleMonthRevenue: number[];
 };
 
 export type Pie = {
-  orderFullfillment: OrderFullfillment;
+  orderfullfieldRadio: OrderFullfillment;
   productCategories: Record<string, number>[];
-  stockAvailablity: {
+  stockAvailadblity: {
     inStock: number;
     outOfStock: number;
   };
   revenueDistribution: RevenueDistribution;
-  usersAgeGroup: UsersAgeGroup;
-  adminCustomer: {
-    admin: number;
-    customer: number;
-  };
+  ageRadio: UsersAgeGroup;
+  UsersRadio: { user: number; admin: number };
 };
 
 export type LatestTransaction = {
@@ -151,17 +148,16 @@ type OrderResponse = {
 };
 
 type UserType = {
-  _id:string;
+  _id: string;
   name: string;
-  email:string;
-  photo:string;
+  email: string;
+  photo: string;
   role: "user" | "admin";
   gender: "male" | "female";
   dob: Date;
   createdAt: Date;
   updatedAt: Date;
-}
-
+};
 
 type CartItems = {
   productId: string;

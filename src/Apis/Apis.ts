@@ -1,4 +1,4 @@
-import { DashboardAPI } from "./dashboard";
+import { BarAPI, DashboardAPI, LineAPI, PieAPI } from "./inventory";
 import { allOrdersApi, ChangeOrderStatusApi, DeleteOrderApi, OrderDetailsApi } from "./orders";
 import {
   categoriesApi,
@@ -28,4 +28,7 @@ export const ApiFunctions = {
   DeleteOrder:DeleteOrderApi,
   ChangeOrderStatus:ChangeOrderStatusApi,
   DeleteUser: DeleteUserApi,
+  PieData:PieAPI,
+  LineData:LineAPI,
+  BarData:BarAPI
 };
