@@ -1,4 +1,6 @@
 import type { LatestTransaction } from "@/types/Api";
+import { Link } from "react-router";
+import { Badge } from "../ui/badge";
 
 export function RecentSales({
   latestTransaction,
@@ -17,15 +19,15 @@ export function RecentSales({
 
       {latestTransaction?.map((order) => {
         return (
-          <div key={order._id} className="flex flex-1 gap-4 items-center justify-between border py-3 px-2 cursor-pointer rounded-md hover:bg-gray-300">
+          <Link to={`/order/${order._id}`} key={order._id} className="flex flex-1 gap-4 items-center justify-between border py-3 px-2 cursor-pointer rounded-md hover:bg-gray-300">
             <p className="text-sm leading-none font-medium">
               {order._id.slice(4, 8)}
             </p>
             <p className="text-muted-foreground text-sm">{order.quantity}</p>
             <p className="text-muted-foreground text-sm">-₹{order.discount}</p>
-            <p className="text-muted-foreground text-sm">{order.status}</p>
+            <Badge variant={"outline"} className="text-sm">{order.status}</Badge>
             <div className="font-medium">+₹{order.amount}</div>
-          </div>
+          </Link>
         );
       })}
     </div>

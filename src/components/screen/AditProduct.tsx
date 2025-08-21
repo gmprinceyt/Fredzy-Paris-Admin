@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { ApiFunctions } from "@/Apis/Api";
+import { ApiFunctions } from "@/Apis/Apis";
 import { useParams } from "react-router";
 import { ENV } from "@/Apis";
 import ErrorMessage from "../small/ErrorUI";
@@ -225,7 +225,7 @@ const EditProduct = () => {
                     </div>
                   </div>
                   <DialogFooter>
-                    <DialogClose asChild>
+                    <DialogClose onClick={()=> setIsOpen(false)} asChild>
                       <Button variant="outline">Cancel</Button>
                     </DialogClose>
                     <Button type="submit" disabled={isPending}>

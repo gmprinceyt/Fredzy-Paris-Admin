@@ -30,22 +30,22 @@ const OverviewTabs = () => {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <DashboardCard
               name="Total Revenues"
-              countData={data?.countData.totalRevenue}
+              countData={`₹${data?.countData.totalRevenue}`}
               IncresmentlastMonth={data?.dataIncresmentlastMonth.revenue}
             />
             <DashboardCard
               name="Products"
-              countData={data?.countData.ProductCount}
+              countData={`+${data?.countData.ProductCount}`}
               IncresmentlastMonth={data?.dataIncresmentlastMonth.product}
             />
             <DashboardCard
               name="Orders"
-              countData={data?.countData.OrderCount}
+              countData={`+${data?.countData.OrderCount}`}
               IncresmentlastMonth={data?.dataIncresmentlastMonth.order}
             />
             <DashboardCard
               name="Users"
-              countData={data?.countData.UserCount}
+              countData={`+${data?.countData.UserCount}`}
               IncresmentlastMonth={data?.dataIncresmentlastMonth.users}
             />
           </div>

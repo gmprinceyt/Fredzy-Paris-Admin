@@ -5,7 +5,7 @@ import { Input } from "../ui/input";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { Button } from "../ui/button";
 import { useMutation } from "@tanstack/react-query";
-import { ApiFunctions } from "@/Apis/Api";
+import { ApiFunctions } from "@/Apis/Apis";
 import { ArrowLeft, Loader } from "lucide-react";
 import ErrorMessage from "../small/ErrorUI";
 import { Link } from "react-router";

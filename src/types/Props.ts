@@ -9,7 +9,7 @@ export type  ProductProps = {
 } 
 export type  DashboardCards = {
   name:string;
-  countData?: number;
+  countData?: string;
   IncresmentlastMonth?:number;
 } 
 

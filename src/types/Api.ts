@@ -35,15 +35,16 @@ export type UpdateProductQuery = {
   category: string;
   stock: number;
   price: number;
-  photo:File[];
+  photo: File[];
 };
+
 export type AddProductQuery = {
   name: string;
   discription: string;
   category: string;
   stock: number;
   price: number;
-  photo:File[];
+  photo: File[];
 };
 
 export type Stats = {
@@ -113,13 +114,65 @@ export type LatestTransaction = {
   status: string;
 };
 
-// search=men&sort=asc&category=laptops&price=2000&page
 export type SearchProductQeury = {
   search: string;
   sort: string;
   category: string;
-  price: number;
+  price: number | null;
   page: number;
+};
+
+export interface AllOrderResponse extends MessageResponse {
+  data: OrderResponse[];
+}
+export interface OrderDetailsResponse extends MessageResponse {
+  data: OrderResponse;
+}
+export interface GetSingleUser extends MessageResponse {
+  data: UserType;
+}
+
+type OrderResponse = {
+  shippingInfo: ShippingInfo;
+  _id: string;
+  user: { _id: string; name: string };
+  subtotal: number;
+  tax: number;
+  shippingCharges: number;
+  discount: number;
+  total: number;
+  orderItems: CartItems[];
+  createdAt: Date;
+  updatedAt: Date;
+  status: "Processing" | "Shipped" | "Delivered" | "OutOfDelivery";
+};
+
+type UserType = {
+  name: string;
+  email:string;
+  photo:string;
+  role: "user" | "admin";
+  gender: "male" | "female";
+  dob: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+
+type CartItems = {
+  productId: string;
+  price: number;
+  quantity: number;
+  name: string;
+  photo: string;
+};
+
+type ShippingInfo = {
+  address: string;
+  state: string;
+  country: string;
+  city: string;
+  pincode: number;
 };
 
 type countData = {

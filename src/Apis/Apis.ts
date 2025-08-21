@@ -1,4 +1,5 @@
 import { DashboardAPI } from "./dashboard";
+import { allOrdersApi, ChangeOrderStatusApi, DeleteOrderApi, OrderDetailsApi } from "./orders";
 import {
   categoriesApi,
   CreateProductApi,
@@ -8,8 +9,9 @@ import {
   SingalProductApi,
   updateProductApi,
 } from "./products";
+import { GetAllUserApi, GetSingleUserApi } from "./user";
 
-// Export File
+// Import Files
 export const ApiFunctions = {
   Dashboard: DashboardAPI,
   Product: ProductAPI,
@@ -18,5 +20,11 @@ export const ApiFunctions = {
   UpdateProduct: updateProductApi,
   CreateProduct: CreateProductApi,
   SingalProduct: SingalProductApi,
-  DeleteProduct:deleteProductApi
+  DeleteProduct:deleteProductApi,
+  AllOrders: allOrdersApi,
+  OrderDetails: OrderDetailsApi,
+  GetSingleUser: GetSingleUserApi,
+  GetAllUsers:GetAllUserApi,
+  DeleteOrder:DeleteOrderApi,
+  ChangeOrderStatus:ChangeOrderStatusApi
 };

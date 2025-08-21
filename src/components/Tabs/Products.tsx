@@ -23,7 +23,7 @@ import { Badge } from "../ui/badge";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import ErrorMessage from "../small/ErrorUI";
 import ProductSkeleton from "../small/ProductSkeleton";
-import { ApiFunctions } from "@/Apis/Api";
+import { ApiFunctions } from "@/Apis/Apis";
 import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
 import { Link } from "react-router";
@@ -49,8 +49,8 @@ const Product = () => {
         price: priceRange[0],
         search,
         sort,
-    }),
-     placeholderData: keepPreviousData,
+      }),
+    placeholderData: keepPreviousData,
   });
   if (isError) return <ErrorMessage ErrorMessage={error.message} />;
 
@@ -61,6 +61,7 @@ const Product = () => {
   });
 
   const products = data?.data.products;
+
   const SearchDebounce = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (timeout.current) {
@@ -74,7 +75,7 @@ const Product = () => {
     [setSearch]
   );
   return (
-    <div className="flex flex-col md:flex-row gap-2  m-auto max-w-[1280px] px-3 font-[Geist]">
+    <div className="flex flex-col md:flex-row gap-2 relative  m-auto max-w-[1280px] px-3 font-[Geist]">
       {/* Filterr Section */}
       <section className="">
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-balance">
@@ -82,7 +83,12 @@ const Product = () => {
         </h1>
 
         <div className="my-2 ">
-         <Link to="/addproduct"> <Button className="w-full">Create <Plus/> </Button></Link>
+          <Link to="/addproduct">
+            {" "}
+            <Button className="w-full">
+              Create <Plus />{" "}
+            </Button>
+          </Link>
         </div>
         <div className="my-2 ">
           <h4 className="  font-semibold ">Keyword</h4>
@@ -118,9 +124,7 @@ const Product = () => {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Categories</SelectLabel>
-                   <SelectItem value="all">
-                        ALL
-                      </SelectItem>
+                  <SelectItem value="all">ALL</SelectItem>
                   {categories?.data.data.map((category, i) => {
                     return (
                       <SelectItem key={i} value={category}>
@@ -150,7 +154,7 @@ const Product = () => {
       </section>
 
       {/* Main product Section */}
-      {isLoading ? (
+      {isLoading && products?.length == 0 ? (
         <ProductSkeleton />
       ) : (
         <section className="">
@@ -180,7 +184,7 @@ const Product = () => {
             )}
           </div>
 
-          <Pagination>
+          <Pagination className="">
             <PaginationContent>
               <PaginationItem>
                 <PaginationPrevious
