@@ -1,1 +1,0 @@
-## Add Onclick function to navigate order details in recent-sales file - `P`
