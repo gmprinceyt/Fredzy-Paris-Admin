@@ -18,12 +18,12 @@ import { useQuery } from "@tanstack/react-query";
 import { ApiFunctions } from "@/Apis/Apis";
 import ErrorMessage from "../small/ErrorUI";
 import Loading from "../small/Loading";
-import { TransformDataToLineCharts } from "@/utils/TransfromChartData";
+import { TransformDataToLineCharts } from "@/utils/TransfromApiData";
 import { useMemo } from "react";
 
 function chartConfig({ label, color }: { label: string; color: number }) {
   const chart = {
-    desktop: {
+    [label]: {
       label,
       color: `var(--chart-${color})`,
     },

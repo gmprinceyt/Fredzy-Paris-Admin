@@ -18,7 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { useCallback, useRef, useState } from "react";
+import { useCallback,useRef, useState } from "react";
 import { Badge } from "../ui/badge";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import ErrorMessage from "../small/ErrorUI";
@@ -27,20 +27,22 @@ import { ApiFunctions } from "@/Apis/Apis";
 import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
 import { Link } from "react-router";
+import { useDebounce } from "@/hooks/Debounce";
 
 const Product = () => {
-  const [priceRange, setPriceRange] = useState([100000]);
+  const [priceRange, setPriceRange] = useState([1000000]);
   const [sort, setSort] = useState("");
   const [category, setCategory] = useState("");
   const [search, setSearch] = useState("");
   const [page, setpage] = useState(1);
   const timeout = useRef<NodeJS.Timeout | null>(null);
+  const price = useDebounce(priceRange[0], 500);
 
   // get All Search Products
   const { data, isLoading, isError, error } = useQuery({
     queryKey: [
       "search-product",
-      { category, page, price: priceRange[0], search, sort },
+      { category, page, price, search, sort },
     ],
     queryFn: () =>
       ApiFunctions.SearchProduct({
@@ -141,10 +143,10 @@ const Product = () => {
 
             <Slider
               onValueChange={setPriceRange}
-              defaultValue={[100000]}
-              max={100000}
+              defaultValue={priceRange}
+              max={1000000}
               min={1000}
-              step={150}
+              step={1000}
             />
             <Badge className="mt-1 rounded-md  text-sm ">
               100 - {priceRange}

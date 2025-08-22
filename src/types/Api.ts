@@ -3,7 +3,7 @@ export interface StatsResponse extends MessageResponse {
 }
 
 export interface PieResponse extends MessageResponse {
-  charts: Pie;
+  data: Pie;
 }
 
 export interface LineResponse extends MessageResponse {
@@ -93,14 +93,13 @@ export type Line = {
 
 export type Pie = {
   orderfullfieldRadio: OrderFullfillment;
-  productCategories: Record<string, number>[];
   stockAvailadblity: {
-    inStock: number;
-    outOfStock: number;
+    inStockProduct: number;
+    OutOfStockProduct: number;
   };
   revenueDistribution: RevenueDistribution;
-  ageRadio: UsersAgeGroup;
   UsersRadio: { user: number; admin: number };
+  ageRadio: UsersAgeGroup;
 };
 
 export type LatestTransaction = {
@@ -199,8 +198,8 @@ type RevenueDistribution = {
   netMargin: number;
   discount: number;
   productionCost: number;
-  burnt: number;
   marketingCost: number;
+  burnt: number;
 };
 
 type UsersAgeGroup = {

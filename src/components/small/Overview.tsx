@@ -1,4 +1,4 @@
-import { TransformDataToCharts } from "@/utils/TransfromChartData";
+import { TransformDataToCharts } from "@/utils/TransfromApiData";
 import {
   Bar,
   BarChart,

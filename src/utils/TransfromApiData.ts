@@ -36,18 +36,49 @@ type Charts = { Revenues: number; month: string; OrdersCount: number };
 
 /* ====================================================================== */
 
-export function TransformDataToLineCharts(data:number[], key:string){
+export function TransformDataToLineCharts(data: number[], key: string) {
   const lineData = [];
   const today = new Date();
-  for (let i = 0; i < data.length; i++){
+  for (let i = 0; i < data.length; i++) {
     lineData.push({
-      month: Years[today.getMonth() - (data.length -i )],
+      month: Years[today.getMonth() - (data.length - i)],
       [key]: data[i],
-    })
-  };
+    });
+  }
   lineData.push({
-    key: key
-  })
+    key: key,
+  });
 
   return lineData;
-} 
+}
+
+type MyStringMap = Record<string, number>;
+type PieCharts = {
+  key: string;
+  Radio: number;
+  fill: string;
+  property?:string;
+};
+export function TransformDataToPieCharts(value: MyStringMap, property:string) {
+  const keys = Object.keys(value);
+  const Data: PieCharts[] = [];
+
+  for (let i = 0; i < keys.length; i++) {
+    Data.push({
+      key: Capitalize(keys[i]),
+      Radio: value[keys[i]],
+      fill: `var(--chart-${i + 1})`,
+    });
+  }
+  Data.push({
+    key: "",
+    Radio: 0,
+    fill: "",
+    property
+  })
+  return Data;
+}
+
+function Capitalize(value: string) {
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
