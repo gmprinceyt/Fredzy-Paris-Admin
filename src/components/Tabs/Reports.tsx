@@ -1,4 +1,4 @@
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Line, LineChart, XAxis } from "recharts";
 import {
   Card,
   CardContent,
@@ -18,7 +18,10 @@ import { useQuery } from "@tanstack/react-query";
 import { ApiFunctions } from "@/Apis/Apis";
 import ErrorMessage from "../small/ErrorUI";
 import Loading from "../small/Loading";
-import { TransformDataToLineCharts } from "@/utils/TransfromApiData";
+import {
+  TransformDataToBarData,
+  TransformDataToLineCharts,
+} from "@/utils/TransfromApiData";
 import { useMemo } from "react";
 
 function chartConfig({ label, color }: { label: string; color: number }) {
@@ -30,6 +33,25 @@ function chartConfig({ label, color }: { label: string; color: number }) {
   } satisfies ChartConfig;
   return chart;
 }
+
+const chartData = [
+  { month: "January", desktop: 186, mobile: 80 },
+  { month: "February", desktop: 305, mobile: 200 },
+  { month: "March", desktop: 237, mobile: 120 },
+  { month: "April", desktop: 73, mobile: 190 },
+  { month: "May", desktop: 209, mobile: 130 },
+  { month: "June", desktop: 214, mobile: 140 },
+];
+const chartConfig2 = {
+  desktop: {
+    label: "Desktop",
+    color: "var(--chart-1)",
+  },
+  mobile: {
+    label: "Mobile",
+    color: "var(--chart-2)",
+  },
+} satisfies ChartConfig;
 
 const Reports = () => {
   const {
@@ -49,16 +71,75 @@ const Reports = () => {
     return [
       TransformDataToLineCharts(data.lastTwavleMonthProducts ?? [], "Product"),
       TransformDataToLineCharts(data.lastTwavleMonthRevenues ?? [], "Revenue"),
-      TransformDataToLineCharts(data.lastTwavleMonthDiscounts ?? [], "Discount"),
+      TransformDataToLineCharts(
+        data.lastTwavleMonthDiscounts ?? [],
+        "Discount"
+      ),
       TransformDataToLineCharts(data.lastTwavleMonthUsers ?? [], "Users"),
     ];
   }, [LineData?.data.data]);
 
+  const {
+    data: barChart,
+    isError: isBarError,
+    error: BarErorr,
+  } = useQuery({
+    queryKey: ["bar"],
+    queryFn: ApiFunctions.BarData,
+  });
+
+  const barData = useMemo(() => {
+    const bar = barChart?.data.data;
+    if (!bar) return [];
+    return TransformDataToBarData(
+      bar.lastSixMonthUsers!,
+      "User",
+      bar.lastTwelveMonthOrders!,
+      "Orders"
+    );
+  }, [barChart?.data.data]);
+
   if (isError) return <ErrorMessage ErrorMessage={error.message} />;
   if (isLoading) return <Loading />;
+  if (isBarError) return <ErrorMessage ErrorMessage={BarErorr.message} />;
 
   return (
     <div className="max-w-[1080px] m-auto p-4 flex flex-col gap-3">
+      <Card>
+        <CardHeader>
+          <CardTitle>Bar Chart - Multiple</CardTitle>
+          <CardDescription>January - June 2024</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={chartConfig2}>
+            <BarChart accessibilityLayer data={barData}>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="month"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tickFormatter={(value) => value.slice(0, 3)}
+              />
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent indicator="dashed" />}
+              />
+              <Bar dataKey="Order" fill="var(--color-desktop)" radius={4} />
+              <Bar dataKey="User" fill="var(--color-mobile)" radius={4} />
+            </BarChart>
+          </ChartContainer>
+        </CardContent>
+        <CardFooter className="flex-col items-start gap-2 text-sm">
+          <div className="flex gap-2 leading-none font-medium">
+            Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+          </div>
+          <div className="text-muted-foreground leading-none">
+            Showing total visitors for the last 6 months
+          </div>
+        </CardFooter>
+      </Card>
+
       {LineCharts.map((line, i) => {
         if (!line.length) return null; // avoid empty crash
         const lastKey = line[line.length - 1]?.key ?? "Value";
@@ -70,7 +151,9 @@ const Reports = () => {
               <CardDescription>Last 12 Months</CardDescription>
             </CardHeader>
             <CardContent>
-              <ChartContainer config={chartConfig({ label: lastKey, color: i })}>
+              <ChartContainer
+                config={chartConfig({ label: lastKey, color: i })}
+              >
                 <LineChart
                   accessibilityLayer
                   data={line}
@@ -91,7 +174,7 @@ const Reports = () => {
                   <Line
                     dataKey={lastKey}
                     type="natural"
-                    stroke={`var(--chart-${i+1})`}
+                    stroke={`var(--chart-${i + 1})`}
                     strokeWidth={2}
                     dot={false}
                   />
@@ -100,7 +183,8 @@ const Reports = () => {
             </CardContent>
             <CardFooter className="flex-col items-start gap-2 text-sm">
               <div className="flex gap-2 leading-none font-medium">
-                Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+                Trending up by 5.2% this month{" "}
+                <TrendingUp className="h-4 w-4" />
               </div>
               <div className="text-muted-foreground leading-none">
                 Showing totals for the last 12 months

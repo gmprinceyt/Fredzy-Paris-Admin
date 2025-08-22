@@ -4,7 +4,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  Table
+  Table,
 } from "../ui/table";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -21,17 +21,20 @@ const Users = () => {
     data: UsersData,
     isError,
     error,
-    isLoading
+    isLoading,
   } = useQuery({
     queryKey: ["users"],
     queryFn: ApiFunctions.GetAllUsers,
   });
 
   if (isError) return <ErrorMessage ErrorMessage={error.message} />;
-  if (isLoading) return <Loading/>;
+  if (isLoading) return <Loading />;
   const data = UsersData?.data;
   return (
-    <div className="max-w-[1280px] m-auto">
+    <div className="max-w-[1280px] m-auto p-3">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">All Users</h1>
+      </div>
       <Table>
         <TableHeader>
           <TableRow>
@@ -49,11 +52,13 @@ const Users = () => {
               <TableRow key={data._id}>
                 <TableCell className="font-medium">{data.name}</TableCell>
                 <TableCell>
-                  <Badge className={data.role == 'admin'?  "bg-red-500" : "" } >{data.role}</Badge>
+                  <Badge className={data.role == "admin" ? "bg-red-500" : ""}>
+                    {data.role}
+                  </Badge>
                 </TableCell>
                 <TableCell>{data.email}</TableCell>
-                <TableCell >{new Date(data.dob).toLocaleDateString()}</TableCell>
-                <TableCell  className="text-right">
+                <TableCell>{new Date(data.dob).toLocaleDateString()}</TableCell>
+                <TableCell className="text-right">
                   {new Date(data.createdAt).toLocaleDateString()}
                 </TableCell>
 

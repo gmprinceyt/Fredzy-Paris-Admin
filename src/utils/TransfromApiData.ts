@@ -57,9 +57,9 @@ type PieCharts = {
   key: string;
   Radio: number;
   fill: string;
-  property?:string;
+  property?: string;
 };
-export function TransformDataToPieCharts(value: MyStringMap, property:string) {
+export function TransformDataToPieCharts(value: MyStringMap, property: string) {
   const keys = Object.keys(value);
   const Data: PieCharts[] = [];
 
@@ -74,11 +74,39 @@ export function TransformDataToPieCharts(value: MyStringMap, property:string) {
     key: "",
     Radio: 0,
     fill: "",
-    property
-  })
+    property,
+  });
   return Data;
 }
 
 function Capitalize(value: string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+// { month: "April", desktop: 73, mobile: 190 },
+// { month: "May", desktop: 209, mobile: 130 },
+
+export function TransformDataToBarData(
+  data: number[],
+  key: string,
+  data2?: number[],
+  key2?: string
+) {
+  const Bar = [];
+  const today = new Date();
+  for (let i = 0; i < data.length; i++) {
+    if (data2 && key2) {
+      Bar.push({
+        month: Years[today.getMonth() - (6 - i)],
+        [key]: data[i],
+        [key2]: data2[i],
+      });
+    } else {
+      Bar.push({
+        month: Years[today.getMonth() - (6 - i)],
+        [key]: data[i],
+      });
+    }
+  };
+  return Bar;
 }
