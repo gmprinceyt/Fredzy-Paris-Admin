@@ -30,7 +30,7 @@ const OverviewTabs = () => {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <DashboardCard
               name="Total Revenues"
-              countData={`₹${data?.countData.totalRevenue}`}
+              countData={`₹${data?.countData.totalRevenue.toFixed(0)}`}
               IncresmentlastMonth={data?.dataIncresmentlastMonth.revenue}
             />
             <DashboardCard
@@ -60,7 +60,7 @@ const OverviewTabs = () => {
             </Card>
             <Card className="col-span-1 lg:col-span-3">
               <CardHeader>
-                <CardTitle>Latest four transaction</CardTitle>
+                <CardTitle>Latest Placed Orders</CardTitle>
               </CardHeader>
               <CardContent>
                 <RecentSales

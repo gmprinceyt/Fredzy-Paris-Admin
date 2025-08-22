@@ -49,9 +49,8 @@ export default function Analytics() {
   return (
     <div className="max-w-[1080px] m-auto p-4 flex flex-col gap-3">
       {pieChart.map((pieChart, i) => {
-        console.log(pieChart)
         return (
-          <Card className="flex flex-col">
+          <Card key={i} className="flex flex-col">
             <CardHeader className="items-center pb-0">
               <CardTitle>Pie Chart </CardTitle>
               <CardDescription>{pieChart[pieChart.length-1].property}</CardDescription>
