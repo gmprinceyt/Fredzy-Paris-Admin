@@ -85,10 +85,10 @@ export type Bar = {
   lastTwelveMonthOrders: number[];
 };
 export type Line = {
-  lastTwavleMonthUser: number[];
-  lastTwavleMonthProduct: number[];
-  lastTwavleMonthDiscount: number[];
-  lastTwavleMonthRevenue: number[];
+  lastTwavleMonthUsers: number[];
+  lastTwavleMonthProducts: number[];
+  lastTwavleMonthDiscounts: number[];
+  lastTwavleMonthRevenues: number[];
 };
 
 export type Pie = {
